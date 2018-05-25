@@ -26,17 +26,22 @@ reverse([X|Y], Z) :-
     init_list(C, Z),
     reverse(Y, C).
 
+concat([], X, X).
+concat([X|Xs], Y, [Z|Zs]) :-
+    X #= Z,
+    concat(Xs, Y, Zs).
+
 intersperse_elem_list(_, [], []).
 intersperse_elem_list(_, [X], [X]).
 intersperse_elem_list(E, [X,Y|Z], [X,E|T]) :-
     intersperse_elem_list(E, [Y|Z], T).
 
-all_list(_, []).
-all_list(Goal, [X|Xs]) :-
+all_list(+_, []).
+all_list(+Goal, [X|Xs]) :-
     call(Goal, X),
     all_list(Goal, Xs).
 
-any_list(Goal, [X|Xs]) :-
+any_list(+Goal, [X|Xs]) :-
     call(Goal, X);
     any_list(Goal, Xs).
 
@@ -52,4 +57,16 @@ maximum_list(M, [X|Xs]) :-
     ; X #<  Ms, M #= Ms
     ).
 
+minimum_list(M, [M]).
+minimum_list(M, [X|Xs]) :-
+    minimum_list(Ms, Xs),
+    ( X #=< Ms, M #= X
+    ; X #>  Ms, M #= Ms
+    ).
+
 elem_list(E, [X|Xs]) :- E #= X; elem_list(E, Xs).
+
+map_list(_, [], []).
+map_list(Rel, [X|Xs], [Y|Ys]) :-
+    call(Rel, X, Y),
+    map_list(Rel, Xs, Ys).
