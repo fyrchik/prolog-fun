@@ -66,23 +66,8 @@ height_children(H,H,H1) :- H1 #= H-1.
 % minNodes(H,N) :- N is the minimum number of nodes in a height-balanced binary tree of height H.
 minNodes(0,0).
 minNodes(1,1).
-minNodes(2,2).
+minNodes(2,4).
 minNodes(H,N) :- H #> 2,
-    H1 #= H-1,
-    H2 #= H-2,
-    minNodes(H1,N1),
-    N2 #= N-N1-1,
-    minNodes(H2,N2).
-
-% maxHeight(N,H) :- H is the maximum height of a height-balanced binary tree with N nodes
-maxHeight(0,0).
-maxHeight(1,1).
-maxHeight(2,2).
-maxHeight(3,2).
-maxHeight(N,H) :- N #> 3, H #> 2,
-    H2 #= H-2,
-    minNodes(H2,Hm),
-    print(t(H2,Hm)), nl,
-    C #= N-Hm,
-    H1 #= H-1,
-    maxHeight(C,H1).
+    H1 #= H-1, minNodes(H1,N1),
+    H2 #= H-2, minNodes(H2,N2),
+    N is N1+N2+1.
