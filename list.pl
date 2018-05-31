@@ -2,7 +2,7 @@
 
 head_list(H, [H|_]).
 
-last_list(L, [L]).
+last_list(L, [L]) :- !.
 last_list(L, [_|Ls]) :- last_list(L, Ls).
 
 tail_list(T, [_|T]).
@@ -14,10 +14,10 @@ head_tail_list(H, T, [H|T]).
 
 null([]).
 
-list_length([], 0).
+list_length([], 0) :- !.
 list_length([_|Ls],N1) :-
     N1 #> 0,
-    N1 #= N + 1,
+    N #= N1 - 1,
     list_length(Ls, N).
 
 reverse([], []).
